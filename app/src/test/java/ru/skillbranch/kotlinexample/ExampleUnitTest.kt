@@ -189,21 +189,23 @@ class ExampleUnitTest {
 
     login=johndoe@list.ru password=testPass
 
+    login=JohnDoe@gmail.ru password=invalidPass
+
 
      */
 
-    @Test
-    fun test_csv(){
-        val holder = UserHolder
-        val list = listOf(
-            " John    Doe ;JohnDoe@list.ru;[B@7591083d:c6adb4becdc64e92857e1e2a0fd6af84;;",
-            " John;;[B@77a567e1:a07e337973f9ab704118c73ff827a695;+7 (900) 971-11-11;"
-        )
-        val users = holder.importUsers(list)
-
-        val info = holder.loginUser("johndoe@list.ru","testPass")
-        println(info)
-        println("=================")
-    }
+//    @Test
+//    fun test_csv(){
+//        val holder = UserHolder
+//        val list = listOf(
+//            " John    Doe ;JohnDoe@list.ru;[B@7591083d:c6adb4becdc64e92857e1e2a0fd6af84;;",
+//            " John;;[B@77a567e1:a07e337973f9ab704118c73ff827a695;+7 (900) 971-11-11;"
+//        )
+//        val users = holder.importUsers(list)
+//
+//        val info = holder.loginUser("johndoe@list.ru","testPass")
+//        println(info)
+//        println("=================")
+//    }
 
 }
