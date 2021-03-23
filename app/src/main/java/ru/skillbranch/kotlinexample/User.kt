@@ -130,10 +130,7 @@ class User private constructor(
                 SecureRandom().nextBytes(it)
             }.toString()
         }
-        println("Salt while encrypt: $salt")
-        return password.plus(salt).md5().also {
-            println("Hash with salt: $it")
-        }
+        return salt.plus(password).md5()
     }
 
     private fun generateAccessCode(): String {
@@ -157,9 +154,7 @@ class User private constructor(
         val digest = md.digest(toByteArray())
         val hexString = BigInteger(1,digest).toString(16)
         return hexString.padStart(32, '0')
-
     }
-
 
     companion object Factory{
 
@@ -193,13 +188,14 @@ class User private constructor(
 
             val user = User(firstName, lastName, email, phone, salt, hash)
 
-            println("""
-                fullName = $fullName
-                email = $email
-                salt = $salt
-                hash = $hash
-                phone = $phone
-            """.trimIndent())
+//            println("""
+//                fullName = $fullName
+//                email = $email
+//                salt = $salt
+//                hash = $hash
+//                phone = $phone
+//            """.trimIndent())
+
             return user
         }
 

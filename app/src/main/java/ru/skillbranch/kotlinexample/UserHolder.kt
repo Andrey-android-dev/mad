@@ -39,7 +39,7 @@ object UserHolder {
 
     fun loginUser(login: String, password: String): String? {
 
-        println(">>> login ================================")
+        println(">>> loginUser ================================")
         println("login=$login password=$password")
         println("<<< login ================================")
 
@@ -60,9 +60,10 @@ object UserHolder {
         val users = mutableListOf<User>()
 
         list.forEach {
-            println(">>>================================")
-            println("=$it")
-            println("<<<================================")
+
+            println(">>> importUsers ================================")
+            println("str = $it")
+            println("<<< login ================================")
 
             val user = User.makeUserFromString(it)
             addUserToMap(user)
