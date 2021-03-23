@@ -84,7 +84,7 @@ class User private constructor(
         rawPhone: String?,
         salt:String?,
         hash:String
-    ) : this(firstName, lastName, email = email, meta = mapOf("auth" to "password", "src" to "svc")){
+    ) : this(firstName, lastName, email = email, meta = mapOf("src" to "svc")){
         passwordHash = hash
         this.salt = salt
     }
