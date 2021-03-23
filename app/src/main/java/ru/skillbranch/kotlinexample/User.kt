@@ -179,10 +179,10 @@ class User private constructor(
             val items = str.split(";")
 
             val fullName = items[0]
-            val email = items[1]
+            val email = items[1].let { if(it.isNotBlank()) it else null }
             val salt = items[2].split(":")[0]
             val hash = items[2].split(":")[1]
-            val phone = items[3]
+            val phone = items[3].let { if(it.isNotBlank()) it else null }
 
             val (firstName, lastName) = fullName.fullNameToPair()
 
