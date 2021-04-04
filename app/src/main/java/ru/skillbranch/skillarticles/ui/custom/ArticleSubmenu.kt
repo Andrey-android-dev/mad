@@ -56,11 +56,10 @@ class ArticleSubmenu @JvmOverloads constructor(
             centerX.toInt(),
             centerY.toInt(),
             0f,
-            endRadius.toFloat(),
+            endRadius.toFloat()
         )
         anim.doOnStart {
             visibility = View.VISIBLE
-
         }
         anim.start()
     }
