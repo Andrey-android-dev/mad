@@ -20,9 +20,11 @@
         <item name="colorSurface">@color/color_surface</item>
         <item name="colorOnSurface">@color/color_on_surface</item>
 
+        <item name="android:editTextColor">@color/color_on_article_bar</item>
+        <item name="android:textColorHint">@color/color_gray</item>
+
          <item name="snackbarStyle">@style/CustomSnackbar</item>
     </style>
-
 
     <style name="ArticleBarsTheme" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
         <item name="colorPrimary">@color/color_article_bar</item>
