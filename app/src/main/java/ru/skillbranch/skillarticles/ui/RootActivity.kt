@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
@@ -44,8 +45,22 @@ class RootActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.article_menu, menu)
-        val sv = menu?.findItem(R.id.action_search)
-        sv?.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+        val searchItem = menu?.findItem(R.id.action_search)
+
+        val searchView = (searchItem?.actionView as SearchView)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                viewModel.handleSearch(newText)
+                return true
+            }
+
+        })
+
+        searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
                 viewModel.handleSearchMode(true)
                 return true
@@ -56,9 +71,25 @@ class RootActivity : AppCompatActivity() {
                 return true
             }
         })
-        if (viewModel.state.value?.isSearch == true) {
-            sv?.expandActionView()
+
+        /*
+           Этот блок работает с ошибкой - не восстанавливает текст в поле поиска после переключения
+           темной\светлой темы
+         */
+//        if (viewModel.state.value?.isSearch == true) {
+//            searchItem.expandActionView()
+//            searchView.setQuery(viewModel.state.value?.searchQuery, false)
+//        }
+
+        /*
+          Этот блок работает верно  - восстанавливает текст в поле поиска
+        */
+        val state = viewModel.state.value
+        if (state?.isSearch == true) {
+            searchItem.expandActionView()
+            searchView.setQuery(state.searchQuery, false)
         }
+
         return true
     }
 

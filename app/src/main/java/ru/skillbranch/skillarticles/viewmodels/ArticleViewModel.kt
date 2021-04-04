@@ -13,15 +13,13 @@ import ru.skillbranch.skillarticles.extensions.format
  *
  * Created by Andrey on 03.04.2021
  */
-class ArticleViewModel(private val articleId: String)
-    : BaseViewModel<ArticleState>(ArticleState()), IArticleViewModel
-
-{
+class ArticleViewModel(private val articleId: String) : BaseViewModel<ArticleState>(ArticleState()),
+    IArticleViewModel {
 
     private val repository = ArticleRepository
 
     init {
-        subscribeOnDataSource(getArticleData()){ article, state ->
+        subscribeOnDataSource(getArticleData()) { article, state ->
             article ?: return@subscribeOnDataSource null
             state.copy(
                 shareLink = article.shareLink,
@@ -33,7 +31,7 @@ class ArticleViewModel(private val articleId: String)
             )
         }
 
-        subscribeOnDataSource(getArticleContent()){ content, state ->
+        subscribeOnDataSource(getArticleContent()) { content, state ->
             content ?: return@subscribeOnDataSource null
             state.copy(
                 isLoadingContent = false,
@@ -41,7 +39,7 @@ class ArticleViewModel(private val articleId: String)
             )
         }
 
-        subscribeOnDataSource(getArticlePersonalInfo()){ info, state ->
+        subscribeOnDataSource(getArticlePersonalInfo()) { info, state ->
             info ?: return@subscribeOnDataSource null
             state.copy(
                 isBookmark = info.isBookmark,
@@ -49,7 +47,7 @@ class ArticleViewModel(private val articleId: String)
             )
         }
 
-        subscribeOnDataSource(repository.getAppSettings()){ settings, state ->
+        subscribeOnDataSource(repository.getAppSettings()) { settings, state ->
             state.copy(
                 isDarkMode = settings.isDarkMode,
                 isBigText = settings.isBigText
@@ -67,7 +65,11 @@ class ArticleViewModel(private val articleId: String)
     }
 
     override fun handleSearch(query: String?) {
-
+        updateState {
+            it.copy(
+                searchQuery = query
+            )
+        }
     }
 
     override fun handleUpText() {
@@ -91,7 +93,7 @@ class ArticleViewModel(private val articleId: String)
 
         toggleLike()
 
-        val msg = if(currentState.isLike) Notify.TextMessage("Mark is liked")
+        val msg = if (currentState.isLike) Notify.TextMessage("Mark is liked")
         else {
             Notify.ActionMessage(
                 "Don`t like it anymore",
@@ -109,9 +111,9 @@ class ArticleViewModel(private val articleId: String)
         }
         toggleBookmark()
         val msg =
-            if(currentState.isBookmark) Notify.TextMessage("Add to bookmarks")
-        else
-            Notify.TextMessage("Remove from bookmarks")
+            if (currentState.isBookmark) Notify.TextMessage("Add to bookmarks")
+            else
+                Notify.TextMessage("Remove from bookmarks")
 
         notify(msg)
     }
@@ -131,18 +133,18 @@ class ArticleViewModel(private val articleId: String)
         return repository.loadArticleContent(articleId)
     }
 
-    override fun getArticleData(): LiveData<ArticleData?>{
+    override fun getArticleData(): LiveData<ArticleData?> {
         return repository.getArticle(articleId)
     }
 
-    override fun getArticlePersonalInfo(): LiveData<ArticlePersonalInfo?>{
+    override fun getArticlePersonalInfo(): LiveData<ArticlePersonalInfo?> {
         return repository.loadArticlePersonalInfo(articleId)
     }
 }
 
 
 data class ArticleState(
-    val isAuth : Boolean = false,
+    val isAuth: Boolean = false,
     val isLoadingContent: Boolean = true,
     val isLoadingReviews: Boolean = true,
     val isLike: Boolean = false,
@@ -152,7 +154,7 @@ data class ArticleState(
     val isDarkMode: Boolean = false,
     val isSearch: Boolean = false,
     val searchQuery: String? = null,
-    val searchResult: List<Pair<Int,Int>> = emptyList(),
+    val searchResult: List<Pair<Int, Int>> = emptyList(),
     val searchPosition: Int = 0,
     val shareLink: String? = null,
     val title: String? = null,
