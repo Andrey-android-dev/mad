@@ -46,8 +46,13 @@ class RootActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.article_menu, menu)
         val searchItem = menu?.findItem(R.id.action_search)
-
         val searchView = (searchItem?.actionView as SearchView)
+
+        if (viewModel.state.value?.isSearch == true) {
+            searchItem.expandActionView()
+            searchView.setQuery(viewModel.state.value?.searchQuery, false)
+        }
+
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
@@ -57,7 +62,6 @@ class RootActivity : AppCompatActivity() {
                 viewModel.handleSearch(newText)
                 return true
             }
-
         })
 
         searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
@@ -71,25 +75,6 @@ class RootActivity : AppCompatActivity() {
                 return true
             }
         })
-
-        /*
-           Этот блок работает с ошибкой - не восстанавливает текст в поле поиска после переключения
-           темной\светлой темы
-         */
-//        if (viewModel.state.value?.isSearch == true) {
-//            searchItem.expandActionView()
-//            searchView.setQuery(viewModel.state.value?.searchQuery, false)
-//        }
-
-        /*
-          Этот блок работает верно  - восстанавливает текст в поле поиска
-        */
-        val state = viewModel.state.value
-        if (state?.isSearch == true) {
-            searchItem.expandActionView()
-            searchView.setQuery(state.searchQuery, false)
-        }
-
         return true
     }
 
