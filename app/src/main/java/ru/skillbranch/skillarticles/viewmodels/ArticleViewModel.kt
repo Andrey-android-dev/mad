@@ -154,7 +154,7 @@ data class ArticleState(
     val isDarkMode: Boolean = false,
     val isSearch: Boolean = false,
     val searchQuery: String? = null,
-    val searchResult: List<Pair<Int, Int>> = emptyList(),
+    val searchResults: List<Pair<Int, Int>> = emptyList(),
     val searchPosition: Int = 0,
     val shareLink: String? = null,
     val title: String? = null,
@@ -166,3 +166,21 @@ data class ArticleState(
     val content: List<Any> = emptyList(),
     val reviews: List<Any> = emptyList()
 )
+
+data class BottombarData(
+    val isLike: Boolean = false,
+    val isBookmark: Boolean = false,
+    val isShowMenu: Boolean = false,
+    val isSearch: Boolean = false,
+    val resultsCount: Int = 0,
+    val searchPosition: Int = 0
+)
+
+data class SubmenuData(
+    val isShowMenu: Boolean = false,
+    val isBigText: Boolean = false,
+    val isDarkMode: Boolean = false
+)
+
+fun ArticleState.toBottombarData() = BottombarData(isLike, isBookmark, isShowMenu, isSearch, searchResults.size, searchPosition)
+fun ArticleState.toSubmenuData() = SubmenuData(isShowMenu, isBigText, isDarkMode)
