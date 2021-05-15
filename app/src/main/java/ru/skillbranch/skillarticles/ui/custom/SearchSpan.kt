@@ -1,0 +1,23 @@
+package ru.skillbranch.skillarticles.ui.custom
+
+import android.text.TextPaint
+import android.text.style.BackgroundColorSpan
+import androidx.core.graphics.ColorUtils
+
+/**
+ * Type description here....
+ *
+ * Created by Andrey on 10.05.2021
+ */
+open class SearchSpan(bgColor: Int, private val fgColor: Int) : BackgroundColorSpan(bgColor) {
+
+    private val alpha by lazy {
+        ColorUtils.setAlphaComponent(backgroundColor, 160)
+    }
+
+    override fun updateDrawState(textPaint: TextPaint) {
+        textPaint.bgColor = alpha
+        textPaint.color = fgColor
+    }
+
+}

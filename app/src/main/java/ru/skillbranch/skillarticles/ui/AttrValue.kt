@@ -12,20 +12,19 @@ import kotlin.reflect.KProperty
  *
  * Created by Andrey on 25.04.2021
  */
-class AttrValue(@AttrRes val res: Int): ReadOnlyProperty<Context, Int> {
+class AttrValue(@AttrRes private val res: Int): ReadOnlyProperty<Context, Int> {
 
-    private var value : Int? = null
+    private var _value : Int? = null
 
     override fun getValue(thisRef: Context, property: KProperty<*>): Int {
-        if (value == null) {
+        if (_value == null) {
             val tv = TypedValue()
             if(thisRef.theme.resolveAttribute(res, tv, true))
-                value = tv.data
+                _value = tv.data
             else
                 throw Resources.NotFoundException("Resources with id $res not found")
         }
-        return value!!
+        return _value!!
     }
-
 
 }
