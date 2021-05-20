@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import ru.skillbranch.skillarticles.data.PrefManager
 
 /**
- * Type description here....
+ * Type description here...
  *
  * Created by Andrey on 10.05.2021
  */
