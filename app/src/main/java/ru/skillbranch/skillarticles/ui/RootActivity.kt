@@ -5,7 +5,6 @@ import android.text.Selection
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.method.ScrollingMovementMethod
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
@@ -51,6 +50,7 @@ class RootActivity : AppCompatActivity(), IArticleView {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     val bgColor by AttrValue(R.attr.colorSecondary)
+
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     val fgColor by AttrValue(R.attr.colorOnSecondary)
 
@@ -178,7 +178,7 @@ class RootActivity : AppCompatActivity(), IArticleView {
             textSize = if (data.isBigText) 18f else 14f
             movementMethod = ScrollingMovementMethod()
             val content = if (data.isLoadingContent) "loading..." else data.content.first()
-            if(text.toString() == content) return@with
+            if (text.toString() == content) return@with
             setText(content, TextView.BufferType.SPANNABLE)
         }
 
@@ -265,7 +265,7 @@ class RootActivity : AppCompatActivity(), IArticleView {
         with(vb.bottombar) {
             setSearchState(false)
         }
-        vb.scroll.setMarginOptionally(bottom = dpToIntPx(56))
+        vb.scroll.setMarginOptionally(bottom = dpToIntPx(0))
     }
 
     private fun renderNotification(notify: Notify) {
