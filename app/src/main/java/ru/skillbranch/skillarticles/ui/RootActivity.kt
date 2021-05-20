@@ -63,7 +63,7 @@ class RootActivity : AppCompatActivity(), IArticleView {
         setupSubmenu()
 
         viewModel.observeState(this, ::renderUi)
-        viewModel.observeSubState(this, ArticleState::toBottombarData, ::renderBottombar)
+        viewModel.observeSubState(this, ArticleState::toBottombarData, ::renderBotombar)
         viewModel.observeSubState(this, ArticleState::toSubmenuData, ::renderSubmenu)
 
         viewModel.observeNotifications(this) {
@@ -112,21 +112,6 @@ class RootActivity : AppCompatActivity(), IArticleView {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onPause() {
-        Log.d("TEST123", "onPause")
-        super.onPause()
-    }
-
-    override fun onStop() {
-        Log.d("TEST123", "onStop")
-        super.onStop()
-    }
-
-    override fun onDestroy() {
-        Log.d("TEST123", "onDestroy")
-        super.onDestroy()
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         viewModel.saveState()
         super.onSaveInstanceState(outState)
@@ -161,7 +146,7 @@ class RootActivity : AppCompatActivity(), IArticleView {
         }
     }
 
-    override fun renderBottombar(data: BottombarData) {
+    override fun renderBotombar(data: BottombarData) {
         with(vbBottombar) {
             btnSettings.isChecked = data.isShowMenu
             btnLike.isChecked = data.isLike
