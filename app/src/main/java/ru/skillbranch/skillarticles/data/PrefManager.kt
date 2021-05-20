@@ -30,6 +30,13 @@ class PrefManager(context: Context = App.applicationContext()) {
 
     val dataStore = context.dataStore
 
+    var testInt by PrefDelegate(Int.MAX_VALUE)
+    var testLong by PrefDelegate(Long.MAX_VALUE)
+    var testDouble by PrefDelegate(Double.MAX_VALUE)
+    var testFloat by PrefDelegate(Float.MAX_VALUE)
+    var testString by PrefDelegate("test")
+    var testBoolean by PrefDelegate(false)
+
     private val errHandler = CoroutineExceptionHandler { _, throwable ->
         Log.e("PrefManager", "err ${throwable.message}")
     }
