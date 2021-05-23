@@ -2,6 +2,7 @@ package ru.skillbranch.skillarticles.extensions.data
 
 import ru.skillbranch.skillarticles.data.AppSettings
 import ru.skillbranch.skillarticles.data.ArticlePersonalInfo
+import ru.skillbranch.skillarticles.data.local.User
 import ru.skillbranch.skillarticles.viewmodels.ArticleState
 
 /**
@@ -9,11 +10,11 @@ import ru.skillbranch.skillarticles.viewmodels.ArticleState
  *
  * Created by Andrey on 03.04.2021
  */
-fun ArticleState.toAppSettings() : AppSettings {
+fun ArticleState.toAppSettings(): AppSettings {
     return AppSettings(isDarkMode, isBigText)
 }
 
-fun ArticleState.toArticlePersonalInfo() : ArticlePersonalInfo{
+fun ArticleState.toArticlePersonalInfo(): ArticlePersonalInfo {
     return ArticlePersonalInfo(isLike, isBookmark)
 }
 
@@ -40,3 +41,13 @@ fun ArticleState.asMap(): Map<String, Any?> = mapOf(
     "content" to content,
     "reviews" to reviews,
 )
+
+fun User.asMap(): Map<String, Any?> = mapOf(
+    "id" to id,
+    "name" to name,
+    "avatar" to avatar,
+    "rating" to rating,
+    "respect" to respect,
+    "about" to about
+)
+

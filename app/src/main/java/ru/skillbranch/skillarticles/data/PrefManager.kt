@@ -16,7 +16,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.zip
 import ru.skillbranch.skillarticles.App
+import ru.skillbranch.skillarticles.data.adapters.UserJsonAdapter
 import ru.skillbranch.skillarticles.data.delegates.PrefDelegate
+import ru.skillbranch.skillarticles.data.delegates.PrefObjDelegate
 
 /**
  * Type description here....
@@ -36,6 +38,8 @@ class PrefManager(context: Context = App.applicationContext()) {
     var testFloat by PrefDelegate(Float.MAX_VALUE)
     var testString by PrefDelegate("test")
     var testBoolean by PrefDelegate(false)
+
+    var testUser by PrefObjDelegate(UserJsonAdapter())
 
     private val errHandler = CoroutineExceptionHandler { _, throwable ->
         Log.e("PrefManager", "err ${throwable.message}")

@@ -1,9 +1,10 @@
 package ru.skillbranch.skillarticles.data.local
 
-/**
- * Type description here....
- *
- * Created by Andrey on 20.05.2021
- */
-class User {
-}
+data class User(
+    val id: String,
+    val name: String,
+    val avatar: String? = null,
+    val rating: Int = 0,
+    val respect: Int = 0,
+    val about: String? = null
+)
