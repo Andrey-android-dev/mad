@@ -7,6 +7,9 @@ import ru.skillbranch.skillarticles.extensions.data.asMap
 class UserJsonAdapter() : JsonAdapter<User> {
 
     override fun fromJson(json: String): User? {
+
+        if (json.isEmpty()) return null
+
         val props = json
             .replace(Regex("[{}]"), "")
             .split(',')
