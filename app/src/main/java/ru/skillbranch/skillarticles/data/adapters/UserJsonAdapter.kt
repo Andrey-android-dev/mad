@@ -8,7 +8,7 @@ class UserJsonAdapter() : JsonAdapter<User> {
 
     override fun fromJson(json: String): User? {
 
-        if (json.isEmpty()) return null
+       // if (json.isEmpty()) return null
 
         val props = json
             .replace(Regex("[{}]"), "")

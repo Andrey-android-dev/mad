@@ -46,6 +46,6 @@ class PrefObjDelegate<T>(
                 adapter.fromJson(flowValue.first() ?: "")
             }
         }
-        return _storedValue
+        return _storedValue!!
     }
 }
