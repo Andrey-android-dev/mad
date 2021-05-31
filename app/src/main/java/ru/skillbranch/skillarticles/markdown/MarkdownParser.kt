@@ -26,11 +26,14 @@ object MarkdownParser {
     private const val BLOCK_GROUP = "(`{3}[^\\s][^`]*`{3})"
     private const val LINK_GROUP = "(\\[[^\\[\\]]*?]\\(.+?\\)|^\\[*?]\\(.*?\\))"
     private const val ORDERED_LIST_ITEM_GROUP = "(^[\\d]{1,}\\.\\s.*$)"
+    private const val IMAGE_GROUP = "(!\\[[^\\]]*\\]\\([^\\s]*(\\s\\\"[^\"]*\")?\\))"
+
 
     // result regex
     private const val MARKDOWN_GROUPS =
         "$UNORDERED_LIST_ITEM_GROUP|$HEADER_GROUP|$QUOTE_GROUP|$ITALIC_GROUP" +
-                "|$BOLD_GROUP|$STRIKE_GROUP|$RULE_GROUP|$INLINE_GROUP|$LINK_GROUP|$ORDERED_LIST_ITEM_GROUP|$BLOCK_GROUP"
+                "|$BOLD_GROUP|$STRIKE_GROUP|$RULE_GROUP|$INLINE_GROUP|$LINK_GROUP|$ORDERED_LIST_ITEM_GROUP|$BLOCK_GROUP" +
+                "|$IMAGE_GROUP"
 
     private val elementsPattern by lazy {
         Pattern.compile(MARKDOWN_GROUPS, Pattern.MULTILINE)
@@ -65,7 +68,7 @@ object MarkdownParser {
 
             var text: CharSequence
 
-            val groups = 1..11
+            val groups = 1..12
             var group = -1
             for (gr in groups) {
                 if (matcher.group(gr) != null) {
@@ -190,6 +193,20 @@ object MarkdownParser {
                     lastStartIndex = endIndex
                 }
 
+                // IMAGE
+                12 -> {
+                    text = string.subSequence(startIndex, endIndex)
+                    val (alt: String?, url, _, txt) = "^!\\[([^\\]]*)?\\]\\(([^\"]*)(\\s\"([^\"]*)\")?\\)".toRegex()
+                        .find(text)!!.destructured
+                    val element = Element.Image(
+                        url,
+                        if (alt.isNullOrEmpty()) null else alt,
+                        txt
+                    )
+                    parents.add(element)
+                    lastStartIndex = endIndex
+                }
+
             }
         }
 
@@ -269,6 +286,13 @@ sealed class Element() {
 
     data class Link(
         val link: String,
+        override val text: CharSequence,
+        override val elements: List<Element> = emptyList()
+    ) : Element()
+
+    data class Image(
+        val url: String,
+        val alt: String?,
         override val text: CharSequence,
         override val elements: List<Element> = emptyList()
     ) : Element()
