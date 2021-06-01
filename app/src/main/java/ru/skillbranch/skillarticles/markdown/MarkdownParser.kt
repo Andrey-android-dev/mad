@@ -39,18 +39,28 @@ object MarkdownParser {
         Pattern.compile(MARKDOWN_GROUPS, Pattern.MULTILINE)
     }
 
-
     fun parse(string: String): MarkdownText {
         val elements = mutableListOf<Element>()
-
         elements.addAll(findElements(string))
-
         return MarkdownText(elements)
     }
 
     // Реализовать самостоятельно
     fun clear(string: String): String? {
-        return null
+        val elements = findElements(string)
+        return getClearString(elements)
+    }
+
+    private fun getClearString(elements: List<Element>): String {
+        var result = ""
+        for (element in elements) {
+            result += if (element.elements.isNullOrEmpty()) {
+                element.text.toString()
+            } else {
+                getClearString(element.elements)
+            }
+        }
+        return result
     }
 
     private fun findElements(string: CharSequence): List<Element> {
