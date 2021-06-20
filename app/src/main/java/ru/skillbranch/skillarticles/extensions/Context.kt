@@ -1,10 +1,15 @@
 package ru.skillbranch.skillarticles.extensions
 
+import android.R
 import android.content.Context
+import android.content.res.TypedArray
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.util.TypedValue
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorRes
+
 
 fun Context.dpToPx(dp: Int): Float {
     return TypedValue.applyDimension(
@@ -21,6 +26,12 @@ fun Context.dpToIntPx(dp: Int): Int {
         dp.toFloat(),
         this.resources.displayMetrics
     ).toInt()
+}
+
+fun Context.attrValue(@AttrRes attrRes: Int) : Int {
+    val tValue = TypedValue()
+    theme.resolveAttribute(attrRes, tValue, true)
+    return tValue.data
 }
 
 val Context.isNetworkAvailable: Boolean
