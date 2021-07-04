@@ -54,6 +54,14 @@ class MarkdownBuilder(context: Context) {
                     }
                 }
 
+//                is Element.UnorderedListItem -> {
+//                    inSpans(OrderedListSpan(gap, "5", colorSecondary)) {
+//                        for (child in element.elements) {
+//                            buildElement(child, builder)
+//                        }
+//                    }
+//                }
+
                 is Element.Quote -> {
                     inSpans(
                         BlockquotesSpan(gap, quoteWidth, colorSecondary),
