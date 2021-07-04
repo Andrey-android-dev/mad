@@ -27,9 +27,14 @@ class UnderlineSpan(
         bottom: Int,
         paint: Paint
     ) {
-       //TODO implement me
+        paint.forLine {
+            path.reset()
+            path.moveTo(x, bottom.toFloat())
+            path.lineTo(x + textWidth, bottom.toFloat())
+            canvas.drawPath(path, paint)
+        }
+        canvas.drawText(text, start, end, x, y.toFloat(), paint)
     }
-
 
     override fun getSize(
         paint: Paint,
@@ -38,12 +43,25 @@ class UnderlineSpan(
         end: Int,
         fm: Paint.FontMetricsInt?
     ): Int {
-        //TODO implement me
-        return 0
+        textWidth = paint.measureText(text.toString(), start, end).toInt()
+        return textWidth
     }
 
-
     private inline fun Paint.forLine(block: () -> Unit) {
-        //TODO implement me
+        val oldColor = color
+        val oldStyle = style
+        val oldWidth = strokeWidth
+
+        pathEffect = dashs
+        color = underlineColor
+        style = Paint.Style.STROKE
+        strokeWidth = 0f
+
+        block()
+
+        pathEffect = null
+        strokeWidth = oldWidth
+        style = oldStyle
+        color = oldColor
     }
 }

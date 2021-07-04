@@ -47,8 +47,8 @@ class MarkdownBuilder(context: Context) {
                 is Element.Text -> append(element.text)
 
                 is Element.UnorderedListItem -> {
-                    inSpans(UnorderedListSpan(gap, bulletRadius, colorSecondary)){
-                        for (child in element.elements){
+                    inSpans(UnorderedListSpan(gap, bulletRadius, colorSecondary)) {
+                        for (child in element.elements) {
                             buildElement(child, builder)
                         }
                     }
@@ -58,22 +58,24 @@ class MarkdownBuilder(context: Context) {
                     inSpans(
                         BlockquotesSpan(gap, quoteWidth, colorSecondary),
                         StyleSpan(Typeface.ITALIC)
-                    ){
-                        for (child in element.elements){
+                    ) {
+                        for (child in element.elements) {
                             buildElement(child, builder)
                         }
                     }
                 }
 
                 is Element.Header -> {
-                    inSpans(HeaderSpan(
-                        element.level,
-                        //colorPrimary,
-                        colorOnSurface,
-                        colorDivider,
-                        headerMarginTop,
-                        headerMarginBottom
-                    )){
+                    inSpans(
+                        HeaderSpan(
+                            element.level,
+                            colorPrimary,
+                            //colorOnSurface,
+                            colorDivider,
+                            headerMarginTop,
+                            headerMarginBottom
+                        )
+                    ) {
                         append(element.text)
                     }
                 }
@@ -102,6 +104,14 @@ class MarkdownBuilder(context: Context) {
                     }
                 }
 
+//                is Element.Strike -> {
+//                    inSpans(UnderlineSpan(Color.RED, 12f)) {
+//                        for (child in element.elements) {
+//                            buildElement(child, builder)
+//                        }
+//                    }
+//                }
+
                 is Element.Rule -> {
                     inSpans(HorizontalRuleSpan(ruleWidth, colorDivider)) {
                         append(element.text)
@@ -109,7 +119,14 @@ class MarkdownBuilder(context: Context) {
                 }
 
                 is Element.InlineCode -> {
-                    inSpans(InlineCodeSpan(colorOnSurface, opacityColorSurface, cornerRadius, gap)){
+                    inSpans(
+                        InlineCodeSpan(
+                            colorOnSurface,
+                            opacityColorSurface,
+                            cornerRadius,
+                            gap
+                        )
+                    ) {
                         append(element.text)
                     }
                 }
