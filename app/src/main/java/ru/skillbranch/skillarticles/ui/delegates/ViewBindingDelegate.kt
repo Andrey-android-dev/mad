@@ -6,7 +6,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.viewbinding.ViewBinding
-import ru.skillbranch.skillarticles.databinding.ActivityRootBinding
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 

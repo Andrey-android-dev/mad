@@ -20,3 +20,19 @@ fun View.setMarginOptionally(
         layoutParams = params
     }
 }
+
+fun View.setPaddingOptionally(
+    left: Int = 0,
+    top: Int = 0,
+    right: Int = 0,
+    bottom: Int = 0
+){
+    setPadding(left, top, right, bottom)
+}
+
+fun<T : List<Pair<Int,Int>>> T.groupByBounds(bounds: T) :  List<List<Pair<Int,Int>>> =
+    bounds.map { bound ->
+        this.filter { item ->
+            item.first > bound.first && item.second <= bound.second
+        }
+    }

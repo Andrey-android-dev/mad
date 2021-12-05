@@ -7,28 +7,29 @@ import androidx.lifecycle.SavedStateHandle
 import ru.skillbranch.skillarticles.data.ArticleData
 import ru.skillbranch.skillarticles.data.ArticlePersonalInfo
 import ru.skillbranch.skillarticles.data.repositories.ArticleRepository
+import ru.skillbranch.skillarticles.data.repositories.MarkdownElement
+import ru.skillbranch.skillarticles.data.repositories.clearContent
 import ru.skillbranch.skillarticles.extensions.data.asMap
 import ru.skillbranch.skillarticles.extensions.data.toAppSettings
 import ru.skillbranch.skillarticles.extensions.data.toArticlePersonalInfo
 import ru.skillbranch.skillarticles.extensions.format
 import ru.skillbranch.skillarticles.extensions.indexesOf
-import ru.skillbranch.skillarticles.markdown.MarkdownParser
 
 /**
  * Type description here....
  *
  * Created by Andrey on 03.04.2021
  */
-class ArticleViewModel(private val articleId: String, savedStateHandle: SavedStateHandle)
-    : BaseViewModel<ArticleState>(ArticleState(), savedStateHandle),
+class ArticleViewModel(private val articleId: String, savedStateHandle: SavedStateHandle) :
+    BaseViewModel<ArticleState>(ArticleState(), savedStateHandle),
     IArticleViewModel {
 
-    private val repository = ArticleRepository
+    private val repository = ArticleRepository()
 
     private var clearContent: String? = null
 
     init {
-        savedStateHandle.setSavedStateProvider("state"){
+        savedStateHandle.setSavedStateProvider("state") {
             currentState.toBundle()
         }
 
@@ -76,7 +77,9 @@ class ArticleViewModel(private val articleId: String, savedStateHandle: SavedSta
     override fun handleSearch(query: String?) {
         query ?: return
 
-        if(clearContent == null) clearContent = MarkdownParser.clear(currentState.content)
+        if (clearContent == null && currentState.content.isNotEmpty())
+            clearContent =
+                currentState.content.clearContent()
 
         val result = clearContent.indexesOf(query)
             .map { it to it + query.length }
@@ -141,7 +144,7 @@ class ArticleViewModel(private val articleId: String, savedStateHandle: SavedSta
         }
     }
 
-    override fun getArticleContent(): LiveData<String?> {
+    override fun getArticleContent(): LiveData<List<MarkdownElement>?> {
         return repository.loadArticleContent(articleId)
     }
 
@@ -159,6 +162,10 @@ class ArticleViewModel(private val articleId: String, savedStateHandle: SavedSta
 
     override fun handleDownResult() {
         updateState { it.copy(searchPosition = it.searchPosition.inc()) }
+    }
+
+    override fun handleCopyCode() {
+        notify(Notify.TextMessage("code copy to clipboard"))
     }
 }
 
@@ -183,12 +190,12 @@ data class ArticleState(
     val date: String? = null,
     val author: Any? = null,
     val poster: String? = null,
-    val content: String = "Loading",
+    val content: List<MarkdownElement> = emptyList(),
     val reviews: List<Any> = emptyList()
 ) : VMState {
 
     override fun toBundle(): Bundle {
-        val map = copy(content = "Loading", isLoadingContent = true)
+        val map = copy(content = emptyList(), isLoadingContent = true)
             .asMap()
             .toList()
             .toTypedArray()
@@ -218,7 +225,7 @@ data class ArticleState(
             date = map["date"] as String?,
             author = map["author"] as Any?,
             poster = map["poster"] as String?,
-            content = map["content"] as String,
+            content = map["content"] as List<MarkdownElement>,
             reviews = map["reviews"] as List<Any>
         )
     }
@@ -239,5 +246,7 @@ data class SubmenuData(
     val isDarkMode: Boolean = false
 )
 
-fun ArticleState.toBottombarData() = BottombarData(isLike, isBookmark, isShowMenu, isSearch, searchResults.size, searchPosition)
+fun ArticleState.toBottombarData() =
+    BottombarData(isLike, isBookmark, isShowMenu, isSearch, searchResults.size, searchPosition)
+
 fun ArticleState.toSubmenuData() = SubmenuData(isShowMenu, isBigText, isDarkMode)

@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <ru.skillbranch.skillarticles.ui.custom.CheckableImageView
-        android:id="@+id/btn_text_down"
+        android:id="@+id/btnTextDown"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:background="?attr/selectableItemBackground"
@@ -23,14 +23,14 @@
         android:layout_width="1dp"
         android:layout_height="0dp"
         android:background="@color/color_divider"
-        app:layout_constraintEnd_toStartOf="@+id/btn_text_up"
+        app:layout_constraintEnd_toStartOf="@+id/btnTextUp"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btn_text_down"
+        app:layout_constraintStart_toEndOf="@+id/btnTextUp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/divider_h"/>
 
     <ru.skillbranch.skillarticles.ui.custom.CheckableImageView
-        android:id="@+id/btn_text_up"
+        android:id="@+id/btnTextUp"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:paddingTop="8dp"
@@ -50,10 +50,10 @@
         android:background="@color/color_divider"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_text_down"/>
+        app:layout_constraintTop_toBottomOf="@id/btnTextDown"/>
 
     <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/switch_mode"
+        android:id="@+id/switchMode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
